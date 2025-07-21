@@ -730,7 +730,6 @@ def _pandas_dtype_needs_early_conversion(pd_dtype):
     elif is_integer_dtype(pd_dtype):
         # XXX: Warn when converting from a high integer to a float
         return True
-
     return False
 
 
