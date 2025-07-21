@@ -141,7 +141,7 @@ class _MultimetricScorer:
             )
             if "sample_weight" in kwargs:
                 for name, scorer in self._scorers.items():
-                    if scorer._accept_sample_weight():
+                    if hasattr(scorer, '_accept_sample_weight') and scorer._accept_sample_weight():
                         routed_params[name].score["sample_weight"] = kwargs[
                             "sample_weight"
                         ]
