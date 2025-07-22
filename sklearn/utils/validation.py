@@ -727,7 +727,7 @@ def _pandas_dtype_needs_early_conversion(pd_dtype):
         # Float ndarrays can normally support nans. They need to be converted
         # first to map pd.NA to np.nan
         return True
-    elif is_integer_dtype(pd_dtype):
+    elif is_integer_dtype(pd_dtype) and not is_extension_array_dtype(pd_dtype):
         # XXX: Warn when converting from a high integer to a float
         return True
     return False
