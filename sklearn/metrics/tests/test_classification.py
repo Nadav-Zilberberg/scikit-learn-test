@@ -1,3 +1,9 @@
+import pytest
+from sklearn.exceptions import UndefinedMetricWarning
+from sklearn.metrics import roc_curve, precision_recall_curve, brier_score_loss, det_curve
+import numpy as np
+
+
 import re
 import warnings
 from functools import partial
@@ -3395,3 +3401,34 @@ def test_d2_log_loss_score_raises():
     err = "The labels array needs to contain at least two"
     with pytest.raises(ValueError, match=err):
         d2_log_loss_score(y_true, y_pred, labels=labels)
+
+
+
+@pytest.mark.filterwarnings("ignore:No positive samples in y_true")
+def test_roc_curve_raises_value_error():
+    y_true = [0, 0, 0]
+    y_score = [0.1, 0.2, 0.3]
+    with pytest.raises(ValueError, match="pos_label=1 is not a valid label. It should be one of [0]"):
+        roc_curve(y_true, y_score, pos_label=1)
+
+
+@pytest.mark.filterwarnings("ignore:No positive samples in y_true")
+def test_precision_recall_curve_raises_value_error():
+    y_true = [0, 0, 0]
+    y_score = [0.1, 0.2, 0.3]
+    with pytest.raises(ValueError, match="pos_label=1 is not a valid label. It should be one of [0]"):
+        precision_recall_curve(y_true, y_score, pos_label=1)
+
+
+def test_det_curve_raises_value_error():
+    y_true = [0, 0, 0]
+    y_score = [0.1, 0.2, 0.3]
+    with pytest.raises(ValueError, match="pos_label=1 is not a valid label. It should be one of [0]"):
+        det_curve(y_true, y_score, pos_label=1)
+
+
+def test_brier_score_loss_raises_value_error():
+    y_true = [0, 0, 0]
+    y_proba = [0.1, 0.2, 0.3]
+    with pytest.raises(ValueError, match="pos_label=1 is not a valid label. It should be one of [0]"):
+        brier_score_loss(y_true, y_proba, pos_label=1)
