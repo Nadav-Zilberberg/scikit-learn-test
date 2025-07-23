@@ -1,3 +1,5 @@
+from ..utils import column_or_1d
+from ..utils._encode import _unique
 """Metrics to assess performance on classification task given class prediction.
 
 Functions named as ``*_score`` return a scalar value to maximize: the higher
@@ -3493,6 +3495,16 @@ def brier_score_loss(
     labels=None,
     scale_by_half="auto",
 ):
+    y_true = column_or_1d(y_true)
+    if pos_label is None:
+        classes = _unique(y_true)
+        if len(classes) > 2:
+            raise ValueError("brier_score_loss is only applicable for binary classification when pos_label is not specified.  Number of classes found in y_true > 2.")
+        pos_label = 1
+    else:
+        present_labels = _unique(y_true)
+        if pos_label not in present_labels:
+            raise ValueError(f"pos_label={pos_label} is not a valid label. It should be one of {present_labels}")
     r"""Compute the Brier score loss.
 
     The smaller the Brier score loss, the better, hence the naming with "loss".

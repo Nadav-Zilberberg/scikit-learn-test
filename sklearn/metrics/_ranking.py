@@ -285,6 +285,16 @@ def average_precision_score(
 def det_curve(
     y_true, y_score, pos_label=None, sample_weight=None, drop_intermediate=False
 ):
+    y_true = column_or_1d(y_true)
+    if pos_label is None:
+        classes = _unique(y_true)
+        if len(classes) > 2:
+            raise ValueError("det_curve is only applicable for binary classification when pos_label is not specified.  Number of classes found in y_true > 2.")
+        pos_label = 1
+    else:
+        present_labels = _unique(y_true)
+        if pos_label not in present_labels:
+            raise ValueError(f"pos_label={pos_label} is not a valid label. It should be one of {present_labels}")
     """Compute Detection Error Tradeoff (DET) for different probability thresholds.
 
     .. note::
@@ -942,6 +952,16 @@ def precision_recall_curve(
     sample_weight=None,
     drop_intermediate=False,
 ):
+    y_true = column_or_1d(y_true)
+    if pos_label is None:
+        classes = _unique(y_true)
+        if len(classes) > 2:
+            raise ValueError("precision_recall_curve is only applicable for binary classification when pos_label is not specified.  Number of classes found in y_true > 2.")
+        pos_label = 1
+    else:
+        present_labels = _unique(y_true)
+        if pos_label not in present_labels:
+            raise ValueError(f"pos_label={pos_label} is not a valid label. It should be one of {present_labels}")
     """Compute precision-recall pairs for different probability thresholds.
 
     Note: this implementation is restricted to the binary classification task.
@@ -1085,6 +1105,16 @@ def precision_recall_curve(
 def roc_curve(
     y_true, y_score, *, pos_label=None, sample_weight=None, drop_intermediate=True
 ):
+    y_true = column_or_1d(y_true)
+    if pos_label is None:
+        classes = _unique(y_true)
+        if len(classes) > 2:
+            raise ValueError("roc_curve is only applicable for binary classification when pos_label is not specified.  Number of classes found in y_true > 2.")
+        pos_label = 1
+    else:
+        present_labels = _unique(y_true)
+        if pos_label not in present_labels:
+            raise ValueError(f"pos_label={pos_label} is not a valid label. It should be one of {present_labels}")
     """Compute Receiver operating characteristic (ROC).
 
     Note: this implementation is restricted to the binary classification task.
