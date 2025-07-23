@@ -395,6 +395,20 @@ def test_imputation_most_frequent_pandas(dtype):
     assert_array_equal(X_trans, X_true)
 
 
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test imputation using the most frequent strategy on pandas df with category dtype
+    pd = pytest.importorskip("pandas")
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == "category"
 @pytest.mark.parametrize("X_data, missing_value", [(1, 0), (1.0, np.nan)])
 def test_imputation_constant_error_invalid_type(X_data, missing_value):
     # Verify that exceptions are raised on invalid fill_value type
@@ -496,6 +510,96 @@ def test_imputation_constant_object(marker):
 # empty features due to the behaviour change.
 @pytest.mark.parametrize("dtype", [object, "category"])
 def test_imputation_constant_pandas(dtype):
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test that SimpleImputer preserves category dtype
+    pd = pytest.importorskip("pandas")
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == 'category'
+
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test that SimpleImputer preserves category dtype
+    pd = pytest.importorskip("pandas")
+
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test that SimpleImputer preserves category dtype
+    pd = pytest.importorskip("pandas")
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == 'category'
+
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test that SimpleImputer preserves category dtype
+    pd = pytest.importorskip("pandas")
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == 'category'
+
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test that SimpleImputer preserves category dtype
+    pd = pytest.importorskip("pandas")
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == 'category'
+
+
+
+@pytest.mark.parametrize("dtype", ["category"])
+def test_imputation_most_frequent_category(dtype):
+    # Test that SimpleImputer preserves category dtype
+    pd = pytest.importorskip("pandas")
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == 'category'
+
+    df = pd.DataFrame(data=['A', 'B', 'C', 'A', pd.NA], columns=['column_1'], dtype=dtype)
+
+    imputer = SimpleImputer(missing_values=pd.NA, strategy="most_frequent").set_output(transform='pandas')
+
+    output = imputer.fit_transform(df)
+
+    assert output['column_1'].dtype == 'category'
+
     # Test imputation using the constant strategy on pandas df
     pd = pytest.importorskip("pandas")
 

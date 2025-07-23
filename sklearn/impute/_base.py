@@ -542,6 +542,8 @@ class SimpleImputer(_BaseImputer):
             return median
 
         # Most frequent
+        if X.dtype != 'category':
+            X = np.asarray(X, dtype=object)
         elif strategy == "most_frequent":
             # Avoid use of scipy.stats.mstats.mode due to the required
             # additional overhead and slow benchmarking performance.
@@ -607,6 +609,14 @@ class SimpleImputer(_BaseImputer):
         check_is_fitted(self)
 
         X = self._validate_input(X, in_fit=False)
+
+        # Preserve category dtypes
+        if hasattr(X, "iloc"):  # Check if X is a pandas DataFrame
+            category_columns = {}
+            for col in X.columns:
+                if X[col].dtype == "category":
+                    category_columns[col] = X[col].dtype
+
         statistics = self.statistics_
 
         if X.shape[1] != statistics.shape[0]:
@@ -641,9 +651,15 @@ class SimpleImputer(_BaseImputer):
                 )
                 X = X[:, valid_statistics_indexes]
 
+        # Preserve category dtypes
+        if hasattr(X, "iloc"):  # Check if X is a pandas DataFrame
+            category_columns = {}
+            for col in X.columns:
+                if X[col].dtype == "category":
+                    category_columns[col] = X[col].dtype
+
         # Do actual imputation
         if sp.issparse(X):
-            if self.missing_values == 0:
                 raise ValueError(
                     "Imputation not possible when missing_values "
                     "== 0 and input is sparse. Provide a dense "
@@ -672,6 +688,11 @@ class SimpleImputer(_BaseImputer):
             coordinates = np.where(mask_valid_features.transpose())[::-1]
 
             X[coordinates] = values
+
+        # Restore category dtypes
+        if hasattr(X, "iloc"):  # Check if X is a pandas DataFrame
+            for col, dtype in category_columns.items():
+                X[col] = X[col].astype(dtype)
 
         X_indicator = super()._transform_indicator(missing_mask)
 
