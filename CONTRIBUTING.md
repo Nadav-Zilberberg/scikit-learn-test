@@ -35,6 +35,11 @@ Quick links
 * [Coding guidelines](https://scikit-learn.org/dev/developers/develop.html#coding-guidelines)
 * [Tips to read current code](https://scikit-learn.org/dev/developers/contributing.html#reading-the-existing-code-base)
 
+AI Assistance
+---------------
+
+To ensure transparency and maintain code quality, we ask that you explicitly state whether you used AI tools (e.g., Copilot, ChatGPT) to generate any part of your contribution (code, documentation, tests, etc.). Please include this information in your pull request description.
+
 Code of Conduct
 ---------------
 
