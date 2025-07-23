@@ -67,7 +67,7 @@ os.environ.setdefault("KMP_INIT_AT_FORK", "FALSE")
 # later is linked to the OpenMP runtime to make it possible to introspect
 # it and importing it first would fail if the OpenMP dll cannot be found.
 from . import (  # noqa: F401 E402
-    __check_build,
+    # __check_build,
     _distributor_init,
 )
 from .base import clone  # noqa: E402
