@@ -228,6 +228,18 @@ def check_classification_targets(y):
 def type_of_target(y, input_name="", raise_unknown=False):
     """Determine the type of data indicated by the target.
 
+    xp, is_array_api_compliant = get_namespace(y)
+    y_arr = check_array(y, accept_sparse=["csr", "csc", "coo"], ensure_2d=False, force_all_finite=True)
+    if y_arr.ndim > 2:
+        return "unknown"
+    if y_arr.ndim == 2 and y_arr.shape[1] > 1:
+        unique_count = len(xp.unique(y_arr))
+    else:
+        unique_count = len(xp.unique(y_arr))
+
+    if (y_arr.dtype.kind in 'iuf') and unique_count > 2 and unique_count > (0.2 * y_arr.shape[0]):
+        warnings.warn("The input data represents integer-like values with a high number of unique values. This may be a count or ordinal regression problem, and not a multiclass classification. Consider explicitly converting your target variable to a continuous float array if it represents a continuous quantity.")
+
     Note that this type is the most specific type that can be inferred.
     For example:
 
