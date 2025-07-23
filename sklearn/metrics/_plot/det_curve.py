@@ -202,7 +202,7 @@ class DetCurveDisplay(_BinaryClassifierCurveDisplayMixin):
     def from_predictions(
         cls,
         y_true,
-        y_pred,
+        y_score,
         *,
         sample_weight=None,
         drop_intermediate=True,
@@ -285,12 +285,12 @@ class DetCurveDisplay(_BinaryClassifierCurveDisplayMixin):
         >>> plt.show()
         """
         pos_label_validated, name = cls._validate_from_predictions_params(
-            y_true, y_pred, sample_weight=sample_weight, pos_label=pos_label, name=name
+            y_true, y_score, sample_weight=sample_weight, pos_label=pos_label, name=name
         )
 
         fpr, fnr, _ = det_curve(
             y_true,
-            y_pred,
+            y_score,
             pos_label=pos_label,
             sample_weight=sample_weight,
             drop_intermediate=drop_intermediate,
