@@ -1894,15 +1894,19 @@ def test_iterative_imputer_no_empty_features(strategy):
     )
 
 
-@pytest.mark.parametrize("strategy", ["mean", "median", "most_frequent", "constant"])
-@pytest.mark.parametrize(
-    "X_test",
-    [
-        np.array([[1, 2, 3, 4], [5, 6, 7, 8]]),  # without empty feature
-        np.array([[np.nan, 2, 3, 4], [np.nan, 6, 7, 8]]),  # empty feature at column 0
-        np.array([[1, 2, 3, np.nan], [5, 6, 7, np.nan]]),  # empty feature at column 3
-    ],
-)
+import pytest
+import pandas as pd
+import numpy as np
+from sklearn.impute import SimpleImputer
+from pandas.api.extensions import make_array_nonempty
+
+
+def test_simpleimputer_int32_pyarrow():
+    imp = SimpleImputer(strategy="constant", fill_value=0)
+    dtype = pd.ArrowDtype(pd.Int32Dtype())
+    X = pd.DataFrame({"a": pd.array([10, None], dtype=dtype)})
+    imp.fit(X)
+    assert imp._fit_dtype == np.dtype("int32")
 def test_iterative_imputer_with_empty_features(strategy, X_test):
     """Check the behaviour of `keep_empty_features` in the presence of empty features.
 
