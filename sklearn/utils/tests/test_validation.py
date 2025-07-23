@@ -2422,6 +2422,20 @@ def test_force_all_finite_rename_warning():
     with pytest.warns(FutureWarning, match=msg):
         as_float_array(X, force_all_finite=True)
 
+import pytest
+from sklearn.exceptions import DataConversionWarning
+import pandas as pd
+from pandas.arrays import PeriodArray
+from pandas import PeriodIndex
+
+
+def test_check_array_period_array_raises():
+    arr = PeriodArray._from_sequence(["2000", "2001"], dtype="period[D]")
+    with pytest.raises(ValueError, match="Found array with dim 2, while dim <= 2 is required."):
+        check_array(arr[:, None])
+
+
+
 
 @pytest.mark.parametrize(
     ["X", "estimator", "expected_error_message"],
