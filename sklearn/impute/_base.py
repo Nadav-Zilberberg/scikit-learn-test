@@ -542,6 +542,8 @@ class SimpleImputer(_BaseImputer):
             return median
 
         # Most frequent
+        if X.dtype != 'category':
+            X = np.asarray(X, dtype=object)
         elif strategy == "most_frequent":
             # Avoid use of scipy.stats.mstats.mode due to the required
             # additional overhead and slow benchmarking performance.
